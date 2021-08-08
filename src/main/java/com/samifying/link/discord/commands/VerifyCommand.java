@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,13 @@ public class VerifyCommand implements GuildCommand {
     private final DataRepository repository;
 
     @Autowired
-    public VerifyCommand(CommandModule module, DataRepository repository) {
+    public VerifyCommand(@NotNull CommandModule module, DataRepository repository) {
         module.registerCommand(this);
         this.repository = repository;
     }
 
     @Override
-    public void execute(GuildMessageReceivedEvent event, String[] args) {
+    public void execute(@NotNull GuildMessageReceivedEvent event, String[] args) {
         TextChannel channel = event.getChannel();
         Member member = event.getMember();
         if (member != null) {
@@ -105,7 +106,7 @@ public class VerifyCommand implements GuildCommand {
         return false;
     }
 
-    private void dispatchWithData(TextChannel channel, User user, String message, String username, String uuid) {
+    private void dispatchWithData(@NotNull TextChannel channel, @NotNull User user, String message, String username, String uuid) {
         channel.sendMessage(user.getAsMention() + " " + message)
                 .setEmbeds(new EmbedBuilder()
                         .setColor(Color.ORANGE)
@@ -118,7 +119,7 @@ public class VerifyCommand implements GuildCommand {
                         .build()).queue();
     }
 
-    private void dispatchWithData(TextChannel channel, User user, User subject, String message, String username, String uuid) {
+    private void dispatchWithData(@NotNull TextChannel channel, @NotNull User user, @NotNull User subject, String message, String username, String uuid) {
         channel.sendMessage(user.getAsMention() + " " + message)
                 .setEmbeds(new EmbedBuilder()
                         .setColor(Color.ORANGE)

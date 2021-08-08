@@ -32,7 +32,7 @@ public class StatusCommand implements GuildCommand {
     }
 
     @Override
-    public void execute(GuildMessageReceivedEvent event, String[] args) {
+    public void execute(@NotNull GuildMessageReceivedEvent event, String[] args) {
         TextChannel channel = event.getChannel();
         StatusResponse response = service.getDefaultServerStatus().getBody();
         if (response == null) {

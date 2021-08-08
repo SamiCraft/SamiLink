@@ -20,7 +20,7 @@ public class FilterModule extends ListenerAdapter {
     private final Logger logger = LoggerFactory.getLogger(FilterModule.class);
 
     @Autowired
-    public FilterModule(DiscordBot bot) {
+    public FilterModule(@NotNull DiscordBot bot) {
         bot.registerListener(this);
     }
 

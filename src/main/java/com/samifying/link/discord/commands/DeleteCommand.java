@@ -5,6 +5,7 @@ import com.samifying.link.data.DataRepository;
 import com.samifying.link.discord.CommandModule;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,14 +19,14 @@ public class DeleteCommand implements GuildCommand {
     private final DataRepository repository;
 
     @Autowired
-    public DeleteCommand(CommandModule module, DataRepository repository) {
+    public DeleteCommand(@NotNull CommandModule module, DataRepository repository) {
         module.registerCommand(this);
         this.repository = repository;
 
     }
 
     @Override
-    public void execute(GuildMessageReceivedEvent event, String[] args) {
+    public void execute(@NotNull GuildMessageReceivedEvent event, String @NotNull [] args) {
         TextChannel channel = event.getChannel();
         if (args.length != 1) {
             channel.sendMessage("Command usage: `!delete <verification-id>`"

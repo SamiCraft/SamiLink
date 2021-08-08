@@ -22,7 +22,7 @@ public class CommandModule extends ListenerAdapter {
     private final Set<GuildCommand> commands;
 
     @Autowired
-    public CommandModule(DiscordBot bot) {
+    public CommandModule(@NotNull DiscordBot bot) {
         bot.registerListener(this);
         this.commands = new HashSet<>();
     }
@@ -64,7 +64,7 @@ public class CommandModule extends ListenerAdapter {
         }
     }
 
-    public synchronized void registerCommand(GuildCommand command) {
+    public synchronized void registerCommand(@NotNull GuildCommand command) {
         logger.info("Registering command " + command.getClass().getName());
         commands.add(command);
     }

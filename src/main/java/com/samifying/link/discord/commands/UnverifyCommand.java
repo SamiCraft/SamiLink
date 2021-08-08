@@ -6,6 +6,7 @@ import com.samifying.link.discord.CommandModule;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,13 +20,13 @@ public class UnverifyCommand implements GuildCommand {
     private final DataRepository repository;
 
     @Autowired
-    public UnverifyCommand(CommandModule module, DataRepository repository) {
+    public UnverifyCommand(@NotNull CommandModule module, DataRepository repository) {
         module.registerCommand(this);
         this.repository = repository;
     }
 
     @Override
-    public void execute(GuildMessageReceivedEvent event, String[] args) {
+    public void execute(@NotNull GuildMessageReceivedEvent event, String[] args) {
         TextChannel channel = event.getChannel();
         User user = event.getAuthor();
         Optional<Data> optional = repository.findByDiscordId(user.getId());

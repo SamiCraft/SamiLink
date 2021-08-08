@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.utils.MarkdownUtil;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,13 @@ public class WhoisCommand implements GuildCommand {
     private final DataRepository repository;
 
     @Autowired
-    public WhoisCommand(CommandModule module, DataRepository repository) {
+    public WhoisCommand(@NotNull CommandModule module, DataRepository repository) {
         module.registerCommand(this);
         this.repository = repository;
     }
 
     @Override
-    public void execute(GuildMessageReceivedEvent event, String[] args) {
+    public void execute(@NotNull GuildMessageReceivedEvent event, String[] args) {
         TextChannel channel = event.getChannel();
         User user = event.getAuthor();
         List<Member> mentioned = event.getMessage().getMentionedMembers();
@@ -69,7 +70,7 @@ public class WhoisCommand implements GuildCommand {
         return false;
     }
 
-    private void helper(TextChannel channel, User user) {
+    private void helper(TextChannel channel, @NotNull User user) {
         try {
             Optional<Data> optional = repository.findByDiscordId(user.getId());
             if (optional.isEmpty()) {

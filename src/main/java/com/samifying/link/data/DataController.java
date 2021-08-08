@@ -2,6 +2,7 @@ package com.samifying.link.data;
 
 import com.samifying.link.error.ErrorObject;
 import com.samifying.link.error.LoginRejectedException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,13 +45,13 @@ public class DataController {
 
     @ExceptionHandler(LoginRejectedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorObject handleLoginRejectedException(LoginRejectedException e, HttpServletRequest request) {
+    public ErrorObject handleLoginRejectedException(LoginRejectedException e, @NotNull HttpServletRequest request) {
         return new ErrorObject(e, request.getServletPath());
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorObject handleException(Exception e, HttpServletRequest request) {
+    public ErrorObject handleException(Exception e, @NotNull HttpServletRequest request) {
         return new ErrorObject(e, request.getServletPath());
     }
 }
