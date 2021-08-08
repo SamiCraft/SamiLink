@@ -63,7 +63,9 @@ This is the example response in that case:
 ### Libraries used
 
 - Spring Boot
+- Spring Data JPA
 - [JDA](https://github.com/DV8FromTheWorld/JDA)
 - [MySQL Connector J](https://github.com/mysql/mysql-connector-j)
 - [Google GSON](https://github.com/google/gson)
+- [DNSJava](https://github.com/dnsjava/dnsjava)
 - [ServerPing](https://github.com/Pequla/ServerPing)
