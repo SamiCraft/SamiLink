@@ -34,7 +34,7 @@ public class DataService {
         JDA jda = bot.getJda();
         Guild guild = jda.getGuildById(AppConstants.GUILD_ID);
         if (guild == null) {
-            throw new LoginRejectedException("Discord server does not exist");
+            throw new LoginRejectedException("Discord server not found");
         }
 
         Member member = guild.retrieveMemberById(id).complete();

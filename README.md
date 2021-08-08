@@ -56,7 +56,7 @@ This is the example response in that case:
 #### Error messages
 
 - `You are not verified` - Minecraft Discord account link was not found in the database
-- `Discord server does not exist` - Discord server got deleted or the bot is no longer its member
+- `Discord server not found` - Discord server got deleted or the bot is no longer its member
 - `You are not a Discord server member` - The user has verified but is no longer a Discord server member.
 - `You are not level 5 on the Discord server` - The user has verified but does not have a `Bronze I` role
 
