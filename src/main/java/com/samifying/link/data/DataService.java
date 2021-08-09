@@ -43,7 +43,7 @@ public class DataService {
         }
 
         String avatar = member.getUser().getEffectiveAvatarUrl();
-        UserData ud = new UserData(member.getId(), member.getEffectiveName(), avatar);
+        UserData ud = new UserData(member.getId(), member.getUser().getAsTag(), member.getEffectiveName(), avatar);
 
         // Check if the member is a supporter
         TextChannel supporter = guild.getTextChannelById(AppConstants.SUPPORTER_CHANNEL_ID);

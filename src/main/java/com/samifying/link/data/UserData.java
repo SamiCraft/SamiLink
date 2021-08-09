@@ -4,13 +4,15 @@ public class UserData {
 
     private final String id;
     private final String name;
+    private final String nickname;
     private final String avatar;
     private boolean supporter;
     private boolean moderator;
 
-    public UserData(String id, String name, String avatar) {
+    public UserData(String id, String name, String nickname, String avatar) {
         this.id = id;
         this.name = name;
+        this.nickname = nickname;
         this.avatar = avatar;
         this.supporter = false;
         this.moderator = false;
@@ -22,6 +24,10 @@ public class UserData {
 
     public String getName() {
         return name;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public String getAvatar() {
