@@ -32,7 +32,8 @@ user's (or in this case player's) unique user id or in short uuid:
 ```json
 {
   "id": "358236836113547265",
-  "name": "Pequla (ProNoob2016)",
+  "name": "Pequla#3038",
+  "nickname": "Pequla (ProNoob2016)",
   "avatar": "https://cdn.discordapp.com/avatars/358236836113547265/0c90142668c10ac4ab71f3bc0292dcef.png",
   "supporter": true,
   "moderator": true
