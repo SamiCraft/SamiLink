@@ -12,7 +12,7 @@
     <artifactId>sami-link</artifactId>
     <version>1.0</version>
     <name>SamiLink</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Discord bot and Minecraft account link backend</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.3.0_307</version>
+            <version>4.3.0_324</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
