@@ -33,16 +33,21 @@ public class RoleModule extends ListenerAdapter {
         members.forEach(member -> {
             String content = message.getContentRaw().toLowerCase();
             if (member.getIdLong() == AppConstants.SAMIFYING_USER_ID && content.contains("peaches")) {
-                member.getUser().openPrivateChannel().queue(
-                        pc -> pc.sendMessage("Thanks for watching the video all the way through... as a thank you we've given you the \"YT MVP\" role but SHH... don't tell anyone how you got it <:sfyMal:885557699289440306>")
+
+                Emote emote = guild.getEmoteById(616792047889940490L);
+                if (emote == null) return;
+
+                author.openPrivateChannel().queue(
+                        pc -> pc.sendMessage("Thanks for watching the video all the way through... as a thank you we've given you the \"YT MVP\" role but SHH... don't tell anyone how you got it " + emote.getAsMention())
                                 .queue());
+
                 Role role = guild.getRoleById(AppConstants.CODEWORD_ROLE_ID);
                 Member sender = event.getMember();
                 TextChannel logs = guild.getTextChannelById(AppConstants.LOGGING_CHANNEL_ID);
                 if (role != null && sender != null && logs != null) {
                     guild.addRoleToMember(sender, role).queue();
                     logs.sendMessageFormat("User **%s** (`%s`) guessed the codeword and got the role **%s** (`%s`)",
-                            sender.getUser().getAsTag(), sender.getId(), role.getName(), role.getId()
+                            author.getAsTag(), author.getId(), role.getName(), role.getId()
                     ).queue();
                 }
             }
