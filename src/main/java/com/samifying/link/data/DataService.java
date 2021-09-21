@@ -4,12 +4,16 @@ import com.samifying.link.AppConstants;
 import com.samifying.link.discord.DiscordBot;
 import com.samifying.link.error.LoginRejectedException;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -66,8 +70,8 @@ public class DataService {
         throw new LoginRejectedException("You are not Level 5 on the Discord Server");
     }
 
-    public List<Data> getAllData() {
-        return (List<Data>) repository.findAll();
+    public Page<Data> getAllData(Pageable page) {
+        return repository.findAll(page);
     }
 
     public ResponseEntity<Data> getDataById(int id) {
@@ -85,5 +89,4 @@ public class DataService {
         }
         return ResponseEntity.ok(data.get());
     }
-
 }

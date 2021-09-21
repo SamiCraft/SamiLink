@@ -4,12 +4,13 @@ import com.samifying.link.error.ErrorObject;
 import com.samifying.link.error.LoginRejectedException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -29,8 +30,8 @@ public class DataController {
     }
 
     @GetMapping(path = "/data")
-    public List<Data> getAll() {
-        return service.getAllData();
+    public Page<Data> getAll(Pageable page) {
+        return service.getAllData(page);
     }
 
     @GetMapping(path = "/data/{id}")
