@@ -56,6 +56,11 @@
             <artifactId>dnsjava</artifactId>
             <version>3.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <repositories>
