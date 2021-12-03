@@ -3,12 +3,12 @@ package com.samifying.link.data;
 import com.samifying.link.AppConstants;
 import com.samifying.link.discord.DiscordBot;
 import com.samifying.link.error.LoginRejectedException;
+import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +17,13 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DataService {
 
     private final DataRepository repository;
     private final DiscordBot bot;
 
-    @Autowired
-    public DataService(DataRepository repository, DiscordBot bot) {
-        this.repository = repository;
-        this.bot = bot;
-    }
-
-    public ResponseEntity<UserData> getUserByUUID(String uuid) {
+    public UserData getUserByUUID(String uuid) {
         Optional<Data> data = repository.findByUuid(uuid);
         if (data.isEmpty()) {
             throw new LoginRejectedException("You are not verified");
@@ -65,7 +60,7 @@ public class DataService {
         // Check if its over level 5 or a supporter or staff
         Role role = guild.getRoleById(AppConstants.LEVEL_5_ROLE_ID);
         if (member.getRoles().contains(role) || ud.isSupporter() || ud.isModerator()) {
-            return ResponseEntity.ok(ud);
+            return ud;
         }
         throw new LoginRejectedException("You are not Level 5 on the Discord Server");
     }
@@ -74,19 +69,11 @@ public class DataService {
         return repository.findAll(page);
     }
 
-    public ResponseEntity<Data> getDataById(int id) {
-        Optional<Data> data = repository.findById(id);
-        if (data.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(data.get());
+    public Optional<Data> getDataById(int id) {
+        return repository.findById(id);
     }
 
-    public ResponseEntity<Data> getDataByDiscordId(String id) {
-        Optional<Data> data = repository.findByDiscordId(id);
-        if (data.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(data.get());
+    public Optional<Data> getDataByDiscordId(String id) {
+        return repository.findByDiscordId(id);
     }
 }

@@ -1,5 +1,8 @@
 package com.samifying.link.data;
 
+import lombok.Data;
+
+@Data
 public class UserData {
 
     private final String id;
@@ -9,44 +12,4 @@ public class UserData {
     private boolean supporter;
     private boolean moderator;
 
-    public UserData(String id, String name, String nickname, String avatar) {
-        this.id = id;
-        this.name = name;
-        this.nickname = nickname;
-        this.avatar = avatar;
-        this.supporter = false;
-        this.moderator = false;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public boolean isSupporter() {
-        return supporter;
-    }
-
-    public void setSupporter(boolean supporter) {
-        this.supporter = supporter;
-    }
-
-    public boolean isModerator() {
-        return moderator;
-    }
-
-    public void setModerator(boolean moderator) {
-        this.moderator = moderator;
-    }
 }
