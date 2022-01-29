@@ -15,8 +15,10 @@ public class DataController {
     private final DataService service;
 
     @GetMapping(path = "/user/{uuid}")
-    public UserData getUser(@PathVariable String uuid) {
-        return service.getUserByUUID(uuid);
+    public UserData getUser(
+            @PathVariable String uuid,
+            @RequestParam(required = false, defaultValue = "426156903555399680") long role) {
+        return service.getUserByUUID(uuid, role);
     }
 
     @GetMapping(path = "/data")

@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,7 +22,7 @@ public class DataService {
     private final DataRepository repository;
     private final DiscordBot bot;
 
-    public UserData getUserByUUID(String uuid) {
+    public UserData getUserByUUID(String uuid, Long roleId) {
         Optional<Data> data = repository.findByUuid(uuid);
         if (data.isEmpty()) {
             throw new LoginRejectedException("You are not verified");
@@ -57,12 +56,12 @@ public class DataService {
             ud.setModerator(true);
         }
 
-        // Check if its over level 5 or a supporter or staff
-        Role role = guild.getRoleById(AppConstants.LEVEL_5_ROLE_ID);
+        // Check if player has required role or a supporter or staff
+        Role role = guild.getRoleById(roleId);
         if (member.getRoles().contains(role) || ud.isSupporter() || ud.isModerator()) {
             return ud;
         }
-        throw new LoginRejectedException("You are not Level 5 on the Discord Server");
+        throw new LoginRejectedException("Required role: " + role.getName());
     }
 
     public Page<Data> getAllData(Pageable page) {
