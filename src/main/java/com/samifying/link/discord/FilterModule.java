@@ -41,6 +41,14 @@ public class FilterModule extends ListenerAdapter {
                                     + channel.getName()
                                     + ") can only contain links from **Twitch Clips** (https://clips.twitch.tv/)").queue()
                     );
+
+                    // Sending to staff logs channel
+                    TextChannel logs = event.getGuild().getTextChannelById(AppConstants.LOGGING_CHANNEL_ID);
+                    if (logs != null) {
+                        logs.sendMessageFormat("User **%s** (`%s`)'s message in **%s** (%s) was deleted. No valid twitch clips link found in message",
+                                author.getAsTag(), author.getId(), channel.getName(), channel.getId()
+                                ).queue();
+                    }
                 }
             }
         }

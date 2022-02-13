@@ -11,5 +11,5 @@ public class AppConstants {
     public static final long CODEWORD_ROLE_ID = 885557699289440306L;
     public static final long LOGGING_CHANNEL_ID = 470770748256944138L;
     public static final String MINECRAFT_SERVER_ADDRESS = "play.samifying.com";
-    public static final int MINECRAFT_SERVER_PORT = 25565;
+    public static final int MINECRAFT_SERVER_PORT = 25584;
 }

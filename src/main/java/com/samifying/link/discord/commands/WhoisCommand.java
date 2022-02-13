@@ -88,6 +88,7 @@ public class WhoisCommand implements GuildCommand {
                             .addField("Username:", username, false)
                             .addField("Created at:", data.getCreatedAt().toString(), false)
                             .setThumbnail(user.getEffectiveAvatarUrl())
+                            .setImage("https://crafatar.com/renders/body/" + data.getUuid())
                             .setFooter(String.valueOf(data.getId()))
                             .setTimestamp(Instant.now())
                             .build()).queue();
