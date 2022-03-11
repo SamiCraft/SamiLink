@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.awt.*;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ import java.util.Optional;
 @Component
 public class WhoisCommand implements GuildCommand {
 
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
     private final Logger logger = LoggerFactory.getLogger(WhoisCommand.class);
     private final DataRepository repository;
 
@@ -80,18 +82,25 @@ public class WhoisCommand implements GuildCommand {
 
             Data data = optional.get();
             String username = AppUtils.fetchUsername(data.getUuid());
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(Color.ORANGE)
+                    .setTitle(MarkdownUtil.bold("Verification data"))
+                    .addField("User:", user.getAsTag(), false)
+                    .addField("Username:", username, false)
+                    .addField("Created at:", dateFormat.format(data.getCreatedAt()), false)
+                    .setThumbnail(user.getEffectiveAvatarUrl())
+                    .setImage("https://crafatar.com/renders/body/" + data.getUuid())
+                    .setFooter(String.valueOf(data.getId()))
+                    .setTimestamp(Instant.now());
+
+            // User is banned
+            if (data.getBannedBy() != null) {
+                builder.setColor(Color.RED);
+                builder.addField("Status:","Banned", false);
+            }
+
             channel.sendMessage("Following data was found")
-                    .setEmbeds(new EmbedBuilder()
-                            .setColor(Color.ORANGE)
-                            .setTitle(MarkdownUtil.bold("Verification data"))
-                            .addField("User:", user.getAsTag(), false)
-                            .addField("Username:", username, false)
-                            .addField("Created at:", data.getCreatedAt().toString(), false)
-                            .setThumbnail(user.getEffectiveAvatarUrl())
-                            .setImage("https://crafatar.com/renders/body/" + data.getUuid())
-                            .setFooter(String.valueOf(data.getId()))
-                            .setTimestamp(Instant.now())
-                            .build()).queue();
+                    .setEmbeds(builder.build()).queue();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
             channel.sendMessage("Failed retrieving the minecraft username").queue();

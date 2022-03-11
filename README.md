@@ -64,6 +64,7 @@ This is the example response in that case:
 - `Discord server not found` - Discord server got deleted or the bot is no longer its member
 - `You are not a Discord server member` - The user has verified but is no longer a Discord server member.
 - `Required role: ROLE_NAME` - The user has verified but does not have the required role
+- `You are banned from this server` - You are banned :(
 
 ### Libraries used
 

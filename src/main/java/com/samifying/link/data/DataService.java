@@ -28,6 +28,11 @@ public class DataService {
             throw new LoginRejectedException("You are not verified");
         }
 
+        // Check if user is banned
+        if (data.get().getBannedBy() != null) {
+            throw new LoginRejectedException("You are banned from this server");
+        }
+
         String id = data.get().getDiscordId();
         JDA jda = bot.getJda();
         Guild guild = jda.getGuildById(AppConstants.GUILD_ID);

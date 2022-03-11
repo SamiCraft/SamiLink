@@ -1,9 +1,19 @@
 package com.samifying.link.data;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(name = "data")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Data {
 
     @Id
@@ -17,47 +27,11 @@ public class Data {
     private String uuid;
 
     @Column(name = "created_at", insertable = false, updatable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    public Data() {
-    }
+    @Column(name = "banned_at")
+    private LocalDateTime bannedAt;
 
-    public Data(int id, String discordId, String uuid, Date createdAt) {
-        this.id = id;
-        this.discordId = discordId;
-        this.uuid = uuid;
-        this.createdAt = createdAt;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDiscordId() {
-        return discordId;
-    }
-
-    public void setDiscordId(String discordId) {
-        this.discordId = discordId;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+    @Column(name = "banned_by")
+    private String bannedBy;
 }

@@ -1,5 +1,6 @@
 package com.samifying.link.discord.commands;
 
+import com.samifying.link.AppUtils;
 import com.samifying.link.data.Data;
 import com.samifying.link.data.DataRepository;
 import com.samifying.link.discord.CommandModule;
@@ -28,25 +29,25 @@ public class DeleteCommand implements GuildCommand {
     @Override
     public void execute(@NotNull GuildMessageReceivedEvent event, String @NotNull [] args) {
         TextChannel channel = event.getChannel();
+
+        // Argument missing
         if (args.length != 1) {
-            channel.sendMessage("Command usage: `!delete <verification-id>`"
-                    + System.lineSeparator()
-                    + "You can find the verification id in the footer (ex: 36 o Today at 19:30) of the !whois/!find embed"
-            ).queue();
+            AppUtils.sendCommandUsage(channel, "!delete <data-id>");
             return;
         }
 
         try {
             Optional<Data> optional = repository.findById(Integer.valueOf(args[0]));
-            if (optional.isPresent()) {
-                repository.deleteById(optional.get().getId());
-                channel.sendMessage("Verification under id " + args[0] + " was deleted").queue();
+            if (optional.isEmpty()) {
+                AppUtils.sendInfoMessage(channel, "No data found");
                 return;
             }
-            channel.sendMessage("Verification with that id was not found").queue();
 
+            // Delete data
+            repository.delete(optional.get());
+            AppUtils.sendInfoMessage(channel, "Verification successfully deleted");
         } catch (NumberFormatException ex) {
-            channel.sendMessage("`" + args[0] + "` is not a number").queue();
+            AppUtils.sendErrorMessage(channel, ex, args[0] + " is not a number");
         }
     }
 

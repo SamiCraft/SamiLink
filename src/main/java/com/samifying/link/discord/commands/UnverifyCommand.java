@@ -34,7 +34,13 @@ public class UnverifyCommand implements GuildCommand {
             channel.sendMessage("You are not verified").queue();
             return;
         }
-        repository.deleteById(optional.get().getId());
+
+        Data data = optional.get();
+        if (data.getBannedBy() != null) {
+            channel.sendMessage("Sorry, you can't do that (**You are banned on the server**)").queue();
+            return;
+        }
+        repository.deleteById(data.getId());
         channel.sendMessage("Your verification has been successfully removed").queue();
     }
 
@@ -45,7 +51,7 @@ public class UnverifyCommand implements GuildCommand {
 
     @Override
     public List<String> getTriggers() {
-        return Arrays.asList("!unverify","!unlink");
+        return Arrays.asList("!unverify", "!unlink");
     }
 
     @Override
