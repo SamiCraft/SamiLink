@@ -1,4 +1,4 @@
-package com.samifying.link.data;
+package com.samifying.link.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity(name = "data")
 @NoArgsConstructor

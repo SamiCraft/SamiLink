@@ -1,6 +1,9 @@
-package com.samifying.link.data;
+package com.samifying.link.service;
 
 import com.samifying.link.AppConstants;
+import com.samifying.link.entity.Data;
+import com.samifying.link.repository.DataRepository;
+import com.samifying.link.model.UserModel;
 import com.samifying.link.discord.DiscordBot;
 import com.samifying.link.error.LoginRejectedException;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +25,7 @@ public class DataService {
     private final DataRepository repository;
     private final DiscordBot bot;
 
-    public UserData getUserByUUID(String uuid, Long roleId) {
+    public UserModel getUserByUUID(String uuid, Long roleId) {
         Optional<Data> data = repository.findByUuid(uuid);
         if (data.isEmpty()) {
             throw new LoginRejectedException("You are not verified");
@@ -46,7 +49,7 @@ public class DataService {
         }
 
         String avatar = member.getUser().getEffectiveAvatarUrl();
-        UserData ud = new UserData(member.getId(), member.getUser().getAsTag(), member.getEffectiveName(), avatar);
+        UserModel ud = new UserModel(member.getId(), member.getUser().getAsTag(), member.getEffectiveName(), avatar);
 
         // Check if the member is a supporter
         TextChannel supporter = guild.getTextChannelById(AppConstants.SUPPORTER_CHANNEL_ID);

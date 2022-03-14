@@ -1,5 +1,8 @@
-package com.samifying.link.data;
+package com.samifying.link.controller;
 
+import com.samifying.link.entity.Data;
+import com.samifying.link.model.UserModel;
+import com.samifying.link.service.DataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +18,7 @@ public class DataController {
     private final DataService service;
 
     @GetMapping(path = "/user/{uuid}")
-    public UserData getUser(
+    public UserModel getUser(
             @PathVariable String uuid,
             @RequestParam(required = false, defaultValue = "426156903555399680") long role) {
         return service.getUserByUUID(uuid, role);

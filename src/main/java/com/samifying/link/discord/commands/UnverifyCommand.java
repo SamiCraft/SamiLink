@@ -1,7 +1,8 @@
 package com.samifying.link.discord.commands;
 
-import com.samifying.link.data.Data;
-import com.samifying.link.data.DataRepository;
+import com.samifying.link.AppUtils;
+import com.samifying.link.entity.Data;
+import com.samifying.link.repository.DataRepository;
 import com.samifying.link.discord.CommandModule;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -28,20 +29,26 @@ public class UnverifyCommand implements GuildCommand {
     @Override
     public void execute(@NotNull GuildMessageReceivedEvent event, String[] args) {
         TextChannel channel = event.getChannel();
-        User user = event.getAuthor();
-        Optional<Data> optional = repository.findByDiscordId(user.getId());
+        User author = event.getAuthor();
+
+        if (args.length != 0) {
+            AppUtils.sendCommandUsage(channel, getTriggers().get(0));
+            return;
+        }
+
+        Optional<Data> optional = repository.findByDiscordId(author.getId());
         if (optional.isEmpty()) {
-            channel.sendMessage("You are not verified").queue();
+            AppUtils.sendErrorMessage(channel, author, "You are not verified");
             return;
         }
 
         Data data = optional.get();
         if (data.getBannedBy() != null) {
-            channel.sendMessage("Sorry, you can't do that (**You are banned on the server**)").queue();
+            AppUtils.sendErrorMessage(channel, author, "Sorry, you can't do that (**You are banned on the server**)");
             return;
         }
         repository.deleteById(data.getId());
-        channel.sendMessage("Your verification has been successfully removed").queue();
+        AppUtils.sendInfoAndLog(channel, author, "Verification was successfully removed");
     }
 
     @Override

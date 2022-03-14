@@ -1,5 +1,6 @@
-package com.samifying.link.data;
+package com.samifying.link.repository;
 
+import com.samifying.link.entity.Data;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

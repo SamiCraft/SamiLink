@@ -1,4 +1,4 @@
-package com.samifying.link.status;
+package com.samifying.link.service;
 
 import com.pequla.server.ping.ServerPing;
 import com.pequla.server.ping.StatusResponse;

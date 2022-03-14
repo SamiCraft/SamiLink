@@ -5,7 +5,7 @@ import com.pequla.server.ping.Players;
 import com.pequla.server.ping.StatusResponse;
 import com.samifying.link.AppConstants;
 import com.samifying.link.discord.CommandModule;
-import com.samifying.link.status.StatusService;
+import com.samifying.link.service.StatusService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;

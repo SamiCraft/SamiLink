@@ -1,9 +1,11 @@
 package com.samifying.link.discord.commands;
 
 import com.samifying.link.AppUtils;
-import com.samifying.link.data.Data;
-import com.samifying.link.data.DataRepository;
+import com.samifying.link.service.MojangService;
+import com.samifying.link.entity.Data;
+import com.samifying.link.repository.DataRepository;
 import com.samifying.link.discord.CommandModule;
+import com.samifying.link.model.AccountModel;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -30,11 +32,13 @@ public class WhoisCommand implements GuildCommand {
     private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
     private final Logger logger = LoggerFactory.getLogger(WhoisCommand.class);
     private final DataRepository repository;
+    private final MojangService service;
 
     @Autowired
-    public WhoisCommand(@NotNull CommandModule module, DataRepository repository) {
+    public WhoisCommand(@NotNull CommandModule module, DataRepository repository, MojangService service) {
         module.registerCommand(this);
         this.repository = repository;
+        this.service = service;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class WhoisCommand implements GuildCommand {
             event.getJDA().retrieveUserById(args[0]).queue(subject -> helper(channel, subject));
             return;
         }
-        channel.sendMessage("Usage: `!whois` or `!whois <user-id>` or `!whois @username`").queue();
+        AppUtils.sendCommandUsage(channel, "!whois <user-id>");
     }
 
     @Override
@@ -81,12 +85,12 @@ public class WhoisCommand implements GuildCommand {
             }
 
             Data data = optional.get();
-            String username = AppUtils.fetchUsername(data.getUuid());
+            AccountModel account = service.getAccountByUUID(data.getUuid());
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Color.ORANGE)
                     .setTitle(MarkdownUtil.bold("Verification data"))
                     .addField("User:", user.getAsTag(), false)
-                    .addField("Username:", username, false)
+                    .addField("Username:", account.getName(), false)
                     .addField("Created at:", dateFormat.format(data.getCreatedAt()), false)
                     .setThumbnail(user.getEffectiveAvatarUrl())
                     .setImage("https://crafatar.com/renders/body/" + data.getUuid())
@@ -104,6 +108,8 @@ public class WhoisCommand implements GuildCommand {
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
             channel.sendMessage("Failed retrieving the minecraft username").queue();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

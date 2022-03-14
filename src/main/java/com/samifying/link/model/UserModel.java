@@ -1,9 +1,9 @@
-package com.samifying.link.data;
+package com.samifying.link.model;
 
 import lombok.Data;
 
 @Data
-public class UserData {
+public class UserModel {
 
     private final String id;
     private final String name;

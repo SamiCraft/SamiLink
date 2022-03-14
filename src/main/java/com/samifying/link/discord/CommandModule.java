@@ -1,6 +1,7 @@
 package com.samifying.link.discord;
 
 import com.samifying.link.AppConstants;
+import com.samifying.link.AppUtils;
 import com.samifying.link.discord.commands.GuildCommand;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -32,7 +33,7 @@ public class CommandModule extends ListenerAdapter {
         final User author = event.getAuthor();
         final Message message = event.getMessage();
 
-        // Command cant be sent via system messages, bots or webhooks
+        // Command can't be sent via system messages, bots or webhooks
         if (author.isBot() || author.isSystem() || message.isWebhookMessage()) {
             return;
         }
@@ -46,19 +47,23 @@ public class CommandModule extends ListenerAdapter {
                     // Checking if message is a command
                     command -> command.getTriggers().contains(args[0])
             ).findAny().ifPresent(command -> {
-                String[] cmdArgs = Arrays.copyOfRange(args, 1, args.length);
-                if (!command.isAdminOnly()) {
-                    command.execute(event, cmdArgs);
-                    return;
-                }
+                try {
+                    String[] cmdArgs = Arrays.copyOfRange(args, 1, args.length);
+                    if (!command.isAdminOnly()) {
+                        command.execute(event, cmdArgs);
+                        return;
+                    }
 
-                // Admin only commands can only be executed by staff
-                final Member member = event.getMember();
-                final Role role = guild.getRoleById(AppConstants.STAFF_ROLE_ID);
-                if (member != null && role != null && member.getRoles().contains(role)) {
-                    command.execute(event, cmdArgs);
-                } else {
-                    event.getChannel().sendMessage("You are not staff").queue();
+                    // Admin only commands can only be executed by staff
+                    final Member member = event.getMember();
+                    final Role role = guild.getRoleById(AppConstants.STAFF_ROLE_ID);
+                    if (member != null && role != null && member.getRoles().contains(role)) {
+                        command.execute(event, cmdArgs);
+                    } else {
+                        event.getChannel().sendMessage("You are not staff").queue();
+                    }
+                } catch (Exception e) {
+                    AppUtils.sendErrorMessage(event.getChannel(), e, e.getMessage());
                 }
             });
         }

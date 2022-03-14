@@ -13,21 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BanCommand implements GuildCommand {
+public class UnbanCommand implements GuildCommand {
 
     private final DataRepository repository;
 
     @Autowired
-    public BanCommand(@NotNull CommandModule module, DataRepository repository) {
+    public UnbanCommand(CommandModule module, DataRepository repository) {
         module.registerCommand(this);
         this.repository = repository;
-
     }
 
     @Override
@@ -36,30 +34,28 @@ public class BanCommand implements GuildCommand {
         TextChannel channel = event.getChannel();
         User author = event.getAuthor();
 
-        // Mentioned member
+        // User is mentioned
         if (!mentioned.isEmpty()) {
             helper(channel, author, mentioned.get(0).getUser());
             return;
         }
 
-        // User by id
+        // User is specified via id
         if (args.length == 1) {
-            channel.getJDA().retrieveUserById(args[0]).queue(subject -> helper(channel, author, subject));
+            channel.getJDA().retrieveUserById(args[0]).queue(user -> helper(channel, author, user));
             return;
         }
-
-        // Command usage
         AppUtils.sendCommandUsage(channel, getTriggers().get(0) + " <user-id>");
     }
 
     @Override
     public String getDescription() {
-        return "Bans a discord user and he/she's minecraft account";
+        return "Unbans a player";
     }
 
     @Override
     public List<String> getTriggers() {
-        return Collections.singletonList("!mcban");
+        return Collections.singletonList("!mcunban");
     }
 
     @Override
@@ -75,16 +71,16 @@ public class BanCommand implements GuildCommand {
         }
 
         Data data = opt.get();
-        if (data.getBannedBy() != null) {
-            AppUtils.sendErrorMessage(channel, author, "User is already banned");
+        if (data.getBannedBy() == null) {
+            AppUtils.sendErrorMessage(channel, author, "User is not banned");
+            return;
         }
 
-        data.setBannedAt(LocalDateTime.now());
-        data.setBannedBy(author.getId());
+        data.setBannedAt(null);
+        data.setBannedBy(null);
         repository.save(data);
 
-        String msg = "User " + subject.getAsMention() + " successfully banned by " + author.getAsMention();
-        AppUtils.sendInfoAndLog(channel, author, msg);
-        AppUtils.sendMessageToUser(subject, Color.RED, "You have been banned from the minecraft server");
+        AppUtils.sendInfoAndLog(channel, author, "User " + subject.getAsMention() + " successfully unbanned");
+        AppUtils.sendMessageToUser(subject, Color.GREEN, "You have been unbanned from the minecraft server");
     }
 }

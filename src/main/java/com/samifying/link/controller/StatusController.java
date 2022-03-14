@@ -1,6 +1,7 @@
-package com.samifying.link.status;
+package com.samifying.link.controller;
 
 import com.pequla.server.ping.StatusResponse;
+import com.samifying.link.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
