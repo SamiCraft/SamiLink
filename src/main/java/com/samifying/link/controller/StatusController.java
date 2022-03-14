@@ -2,21 +2,17 @@ package com.samifying.link.controller;
 
 import com.pequla.server.ping.StatusResponse;
 import com.samifying.link.service.StatusService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/status")
 public class StatusController {
 
     private final StatusService service;
-
-    @Autowired
-    public StatusController(StatusService service) {
-        this.service = service;
-    }
 
     @GetMapping
     public ResponseEntity<StatusResponse> generateServerStatus() {

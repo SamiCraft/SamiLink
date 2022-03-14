@@ -12,8 +12,9 @@ stores and manages Discord and Minecraft account links.
 - GET `https://link.samifying.com/api/status` - Returns the HideySMP server status
 - GET `https://link.samifying.com/api/status/<hostname>` - Returns the minecraft server status based on the hostname (
   with SRV lookup)
-- GET `https://link.samifying.com/api/status/<hostname>/<port>` - Returns the minecraft server stauts based on the
+- GET `https://link.samifying.com/api/status/<hostname>/<port>` - Returns the minecraft server status based on the
   hostname and port
+- GET `http://link.samifying.com/api/lookup/<username>` - Returns a discord user from a minecraft username
 
 > Note that the JSON response of the `/api/status` endpoints is represented as the `StatusResponse` object of the [ServerPing](https://github.com/Pequla/ServerPing) library. If the server is offline or is not found response code will be HTTP 404 Not Found
 
@@ -75,3 +76,5 @@ This is the example response in that case:
 - [Google GSON](https://github.com/google/gson)
 - [DNSJava](https://github.com/dnsjava/dnsjava)
 - [ServerPing](https://github.com/Pequla/ServerPing)
+- [Jackson](https://github.com/FasterXML/jackson-databind)
+- [Lombok](https://projectlombok.org/)
