@@ -40,7 +40,7 @@ public class CommandModule extends ListenerAdapter {
 
         // Command must be executed in the correct server
         final Guild guild = event.getGuild();
-        if (guild.getIdLong() == AppConstants.GUILD_ID) {
+        if (guild.getId().equals(AppConstants.GUILD_ID)) {
 
             String[] args = message.getContentRaw().trim().split("\\s+");
             commands.stream().filter(

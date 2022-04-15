@@ -2,7 +2,7 @@ package com.samifying.link;
 
 public class AppConstants {
 
-    public static final long GUILD_ID = 264801645370671114L;
+    public static final String GUILD_ID = "264801645370671114";
     public static final long TWITCH_CLIPS_CHANNEL_ID = 823996140928106526L;
     public static final long SUPPORTER_CHANNEL_ID = 743861104819830854L;
     public static final long LEVEL_5_ROLE_ID = 712696663440883773L;

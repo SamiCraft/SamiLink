@@ -1,5 +1,6 @@
 package com.samifying.link.controller;
 
+import com.samifying.link.AppConstants;
 import com.samifying.link.entity.Data;
 import com.samifying.link.model.UserModel;
 import com.samifying.link.service.DataService;
@@ -20,8 +21,9 @@ public class DataController {
     @GetMapping(path = "/user/{uuid}")
     public UserModel getUser(
             @PathVariable String uuid,
-            @RequestParam(required = false, defaultValue = "426156903555399680") long role) {
-        return service.getUserByUUID(uuid, role);
+            @RequestParam(required = false, defaultValue = "426156903555399680") Long role,
+            @RequestParam(required = false, defaultValue = AppConstants.GUILD_ID) Long guild) {
+        return service.getUserByUUID(uuid, role, guild);
     }
 
     @GetMapping(path = "/data")

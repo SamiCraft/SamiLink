@@ -21,7 +21,7 @@ public class RoleModule extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         Guild guild = event.getGuild();
-        if (guild.getIdLong() != AppConstants.GUILD_ID) return;
+        if (!guild.getId().equals(AppConstants.GUILD_ID)) return;
 
         User author = event.getAuthor();
         Message message = event.getMessage();

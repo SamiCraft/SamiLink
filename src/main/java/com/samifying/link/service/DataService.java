@@ -25,7 +25,7 @@ public class DataService {
     private final DataRepository repository;
     private final DiscordBot bot;
 
-    public UserModel getUserByUUID(String uuid, Long roleId) {
+    public UserModel getUserByUUID(String uuid, Long roleId, Long guildId) {
         Optional<Data> data = repository.findByUuid(uuid);
         if (data.isEmpty()) {
             throw new LoginRejectedException("You are not verified");
@@ -38,7 +38,7 @@ public class DataService {
 
         String id = data.get().getDiscordId();
         JDA jda = bot.getJda();
-        Guild guild = jda.getGuildById(AppConstants.GUILD_ID);
+        Guild guild = jda.getGuildById(guildId);
         if (guild == null) {
             throw new LoginRejectedException("Discord server not found");
         }
