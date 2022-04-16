@@ -22,6 +22,10 @@ public class LookupService {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return dataService.getUserByUUID(account.getId(), 426156903555399680L, Long.valueOf(AppConstants.GUILD_ID));
+        return dataService.getUserByUUID(account.getId(),
+                Long.valueOf(AppConstants.TARGET_ROLE),
+                Long.valueOf(AppConstants.GUILD_ID),
+                Long.valueOf(AppConstants.SUPPORTER_CHANNEL_ID),
+                Long.valueOf(AppConstants.STAFF_ROLE_ID));
     }
 }

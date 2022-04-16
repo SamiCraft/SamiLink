@@ -1,11 +1,11 @@
 package com.samifying.link.service;
 
 import com.samifying.link.AppConstants;
-import com.samifying.link.entity.Data;
-import com.samifying.link.repository.DataRepository;
-import com.samifying.link.model.UserModel;
 import com.samifying.link.discord.DiscordBot;
+import com.samifying.link.entity.Data;
 import com.samifying.link.error.LoginRejectedException;
+import com.samifying.link.model.UserModel;
+import com.samifying.link.repository.DataRepository;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -25,7 +25,7 @@ public class DataService {
     private final DataRepository repository;
     private final DiscordBot bot;
 
-    public UserModel getUserByUUID(String uuid, Long roleId, Long guildId) {
+    public UserModel getUserByUUID(String uuid, Long roleId, Long guildId, Long supporterId, Long staffId) {
         Optional<Data> data = repository.findByUuid(uuid);
         if (data.isEmpty()) {
             throw new LoginRejectedException("You are not verified");
@@ -52,14 +52,14 @@ public class DataService {
         UserModel ud = new UserModel(member.getId(), member.getUser().getAsTag(), member.getEffectiveName(), avatar);
 
         // Check if the member is a supporter
-        TextChannel supporter = guild.getTextChannelById(AppConstants.SUPPORTER_CHANNEL_ID);
+        TextChannel supporter = guild.getTextChannelById(supporterId);
         if (supporter != null && supporter.canTalk(member)) {
             // Member is a supporter
             ud.setSupporter(true);
         }
 
         // Check if the member is a server moderator
-        Role staff = guild.getRoleById(AppConstants.STAFF_ROLE_ID);
+        Role staff = guild.getRoleById(staffId);
         if (staff != null && member.getRoles().contains(staff)) {
             ud.setModerator(true);
         }

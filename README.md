@@ -41,9 +41,17 @@ user's (or in this case player's) unique user id or in short uuid:
 }
 ```
 
-Only one request argument is available, and that is `role`. With this query parameter you can specify witch role should be used for authentication. The only valid format is role id.
+Few request arguments are available, one of theme is `role`. With this query parameter you can specify witch role should be used for authentication. The only valid format is role id.
 Example url would be: `https://link.samifying.com/api/user/06805a4280d0463dbf7151b1e1317cd4?role=712696664606900265`
 By default if the role parameter is missing it will be set to `Media (ID: 426156903555399680)`
+
+List of all query params:
+- `guild` - Discord server ID that is required for auth
+- `role` - Role id that is used for whitelisting
+- `staff` - Staff role id that is used to identify staff members
+- `supporter` - Channel id for server supporters
+
+> Default values of all query parameters are set to work the best with [Sami's Hidey Hole](discord.gg/samifying)
 
 If the user's access is not permitted the backend will respond with a `403 Forbidden`
 

@@ -38,35 +38,37 @@ public class CommandModule extends ListenerAdapter {
             return;
         }
 
-        // Command must be executed in the correct server
-        final Guild guild = event.getGuild();
-        if (guild.getId().equals(AppConstants.GUILD_ID)) {
 
-            String[] args = message.getContentRaw().trim().split("\\s+");
-            commands.stream().filter(
-                    // Checking if message is a command
-                    command -> command.getTriggers().contains(args[0])
-            ).findAny().ifPresent(command -> {
-                try {
-                    String[] cmdArgs = Arrays.copyOfRange(args, 1, args.length);
-                    if (!command.isAdminOnly()) {
-                        command.execute(event, cmdArgs);
-                        return;
-                    }
-
-                    // Admin only commands can only be executed by staff
-                    final Member member = event.getMember();
-                    final Role role = guild.getRoleById(AppConstants.STAFF_ROLE_ID);
-                    if (member != null && role != null && member.getRoles().contains(role)) {
-                        command.execute(event, cmdArgs);
-                    } else {
-                        event.getChannel().sendMessage("You are not staff").queue();
-                    }
-                } catch (Exception e) {
-                    AppUtils.sendErrorMessage(event.getChannel(), e, e.getMessage());
+        String[] args = message.getContentRaw().trim().split("\\s+");
+        commands.stream().filter(
+                // Checking if message is a command
+                command -> command.getTriggers().contains(args[0])
+        ).findAny().ifPresent(command -> {
+            try {
+                String[] cmdArgs = Arrays.copyOfRange(args, 1, args.length);
+                if (!command.isAdminOnly()) {
+                    command.execute(event, cmdArgs);
+                    return;
                 }
-            });
-        }
+
+                // Admin command must be executed in the correct server
+                final Guild guild = event.getGuild();
+                if (!guild.getId().equals(AppConstants.GUILD_ID)) {
+                    return;
+                }
+
+                // Admin only commands can only be executed by staff
+                final Member member = event.getMember();
+                final Role role = guild.getRoleById(AppConstants.STAFF_ROLE_ID);
+                if (member != null && role != null && member.getRoles().contains(role)) {
+                    command.execute(event, cmdArgs);
+                } else {
+                    event.getChannel().sendMessage("You are not staff").queue();
+                }
+            } catch (Exception e) {
+                AppUtils.sendErrorMessage(event.getChannel(), e, e.getMessage());
+            }
+        });
     }
 
     public synchronized void registerCommand(@NotNull GuildCommand command) {

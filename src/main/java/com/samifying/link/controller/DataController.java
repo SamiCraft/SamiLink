@@ -21,9 +21,11 @@ public class DataController {
     @GetMapping(path = "/user/{uuid}")
     public UserModel getUser(
             @PathVariable String uuid,
-            @RequestParam(required = false, defaultValue = "426156903555399680") Long role,
-            @RequestParam(required = false, defaultValue = AppConstants.GUILD_ID) Long guild) {
-        return service.getUserByUUID(uuid, role, guild);
+            @RequestParam(required = false, defaultValue = AppConstants.TARGET_ROLE) Long role,
+            @RequestParam(required = false, defaultValue = AppConstants.GUILD_ID) Long guild,
+            @RequestParam(required = false, defaultValue = AppConstants.SUPPORTER_CHANNEL_ID) Long supporter,
+            @RequestParam(required = false, defaultValue = AppConstants.STAFF_ROLE_ID) Long staff) {
+        return service.getUserByUUID(uuid, role, guild, supporter, staff);
     }
 
     @GetMapping(path = "/data")
