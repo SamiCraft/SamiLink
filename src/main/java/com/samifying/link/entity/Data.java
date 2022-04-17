@@ -33,4 +33,7 @@ public class Data {
 
     @Column(name = "banned_by")
     private String bannedBy;
+
+    @Column(name = "guild_id")
+    private String guildId;
 }

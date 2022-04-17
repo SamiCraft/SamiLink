@@ -69,6 +69,7 @@ public class VerifyCommand implements GuildCommand {
             Data data = new Data();
             data.setDiscordId(author.getId());
             data.setUuid(account.getId());
+            data.setGuildId(event.getGuild().getId());
             repository.save(data);
             channel.sendMessage(author.getAsMention() + " You have successfully linked your minecraft account")
                     .setEmbeds(generateEmbed(author, account)).queue();
