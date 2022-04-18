@@ -42,4 +42,9 @@ public class DataController {
     public ResponseEntity<Data> getByDiscordId(@PathVariable String id) {
         return ResponseEntity.of(service.getDataByDiscordId(id));
     }
+
+    @GetMapping(path = "/data/uuid/{uuid}")
+    public ResponseEntity<Data> getByUUID(@PathVariable String uuid) {
+        return ResponseEntity.of(service.getDataByUUID(uuid));
+    }
 }

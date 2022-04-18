@@ -83,4 +83,8 @@ public class DataService {
     public Optional<Data> getDataByDiscordId(String id) {
         return repository.findByDiscordId(id);
     }
+
+    public Optional<Data> getDataByUUID(String uuid) {
+        return repository.findByUuid(uuid);
+    }
 }
