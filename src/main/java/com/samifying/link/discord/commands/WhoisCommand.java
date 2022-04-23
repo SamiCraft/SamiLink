@@ -1,11 +1,11 @@
 package com.samifying.link.discord.commands;
 
 import com.samifying.link.AppUtils;
-import com.samifying.link.service.MojangService;
-import com.samifying.link.entity.Data;
-import com.samifying.link.repository.DataRepository;
 import com.samifying.link.discord.CommandModule;
+import com.samifying.link.entity.Data;
 import com.samifying.link.model.AccountModel;
+import com.samifying.link.repository.DataRepository;
+import com.samifying.link.service.MojangService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -93,14 +93,14 @@ public class WhoisCommand implements GuildCommand {
                     .addField("Username:", account.getName(), false)
                     .addField("Created at:", dateFormat.format(data.getCreatedAt()), false)
                     .setThumbnail(user.getEffectiveAvatarUrl())
-                    .setImage("https://crafatar.com/renders/body/" + data.getUuid())
+                    .setImage("https://visage.surgeplay.com/bust/" + AppUtils.cleanUUID(data.getUuid()))
                     .setFooter(String.valueOf(data.getId()))
                     .setTimestamp(Instant.now());
 
             // User is banned
             if (data.getBannedBy() != null) {
                 builder.setColor(Color.RED);
-                builder.addField("Status:","Banned", false);
+                builder.addField("Status:", "Banned", false);
             }
 
             channel.sendMessage("Following data was found")

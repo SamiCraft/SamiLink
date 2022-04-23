@@ -1,6 +1,6 @@
 package com.samifying.link.service;
 
-import com.samifying.link.AppConstants;
+import com.samifying.link.AppUtils;
 import com.samifying.link.discord.DiscordBot;
 import com.samifying.link.entity.Data;
 import com.samifying.link.error.LoginRejectedException;
@@ -26,7 +26,7 @@ public class DataService {
     private final DiscordBot bot;
 
     public UserModel getUserByUUID(String uuid, Long roleId, Long guildId, Long supporterId, Long staffId) {
-        Optional<Data> data = repository.findByUuid(uuid);
+        Optional<Data> data = repository.findByUuid(AppUtils.cleanUUID(uuid));
         if (data.isEmpty()) {
             throw new LoginRejectedException("You are not verified");
         }
@@ -85,6 +85,6 @@ public class DataService {
     }
 
     public Optional<Data> getDataByUUID(String uuid) {
-        return repository.findByUuid(uuid);
+        return repository.findByUuid(AppUtils.cleanUUID(uuid));
     }
 }

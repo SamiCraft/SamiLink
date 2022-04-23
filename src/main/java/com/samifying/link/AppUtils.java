@@ -72,4 +72,8 @@ public class AppUtils {
                 .setTimestamp(Instant.now())
                 .build()).queue());
     }
+
+    public static String cleanUUID(String uuid) {
+        return uuid.replace("-", "");
+    }
 }

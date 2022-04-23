@@ -102,7 +102,7 @@ public class VerifyCommand implements GuildCommand {
                 .addField("User:", user.getAsTag(), false)
                 .addField("Username:", account.getName(), false)
                 .setThumbnail(user.getEffectiveAvatarUrl())
-                .setImage("https://crafatar.com/renders/body/" + account.getId())
+                .setImage("https://visage.surgeplay.com/bust/" + AppUtils.cleanUUID(account.getId()))
                 .setTimestamp(Instant.now())
                 .build();
     }
