@@ -1,12 +1,12 @@
 package com.samifying.link.discord.commands;
 
 import com.samifying.link.AppUtils;
-import com.samifying.link.service.MojangService;
-import com.samifying.link.entity.Data;
-import com.samifying.link.repository.DataRepository;
 import com.samifying.link.discord.CommandModule;
+import com.samifying.link.entity.Data;
 import com.samifying.link.error.MojangException;
 import com.samifying.link.model.AccountModel;
+import com.samifying.link.repository.DataRepository;
+import com.samifying.link.service.MojangService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -64,6 +64,12 @@ public class VerifyCommand implements GuildCommand {
                     });
                     return;
                 }
+            }
+
+            // Author is verified, but tries a different account
+            if (repository.findByDiscordId(author.getId()).isPresent()) {
+                AppUtils.sendErrorMessage(channel, author, "You have already verified your discord account, please `!unverify` first");
+                return;
             }
 
             Data data = new Data();

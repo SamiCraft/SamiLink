@@ -25,7 +25,7 @@ public class DataService {
     private final DataRepository repository;
     private final DiscordBot bot;
 
-    public UserModel getUserByUUID(String uuid, Long roleId, Long guildId, Long supporterId, Long staffId) {
+    public UserModel getUserByUUID(String uuid, Long roleId, Long guildId, Long supporterId, Long staffId, Boolean simple) {
         Optional<Data> data = repository.findByUuid(AppUtils.cleanUUID(uuid));
         if (data.isEmpty()) {
             throw new LoginRejectedException("You are not verified");
@@ -51,23 +51,37 @@ public class DataService {
         String avatar = member.getUser().getEffectiveAvatarUrl();
         UserModel ud = new UserModel(member.getId(), member.getUser().getAsTag(), member.getEffectiveName(), avatar);
 
-        // Check if the member is a supporter
-        TextChannel supporter = guild.getTextChannelById(supporterId);
-        if (supporter != null && supporter.canTalk(member)) {
-            // Member is a supporter
-            ud.setSupporter(true);
-        }
+        if (!simple) {
+            // Check if the member is a supporter
+            TextChannel supporter = guild.getTextChannelById(supporterId);
+            if (supporter != null && supporter.canTalk(member)) {
+                // Member is a supporter
+                ud.setSupporter(true);
+            }
 
-        // Check if the member is a server moderator
-        Role staff = guild.getRoleById(staffId);
-        if (staff != null && member.getRoles().contains(staff)) {
-            ud.setModerator(true);
+            // Check if the member is a server moderator
+            Role staff = guild.getRoleById(staffId);
+            if (staff != null && member.getRoles().contains(staff)) {
+                ud.setModerator(true);
+            }
         }
 
         // Check if player has required role or a supporter or staff
         Role role = guild.getRoleById(roleId);
-        if (member.getRoles().contains(role) || ud.isSupporter() || ud.isModerator()) {
-            return ud;
+        if (role == null) {
+            throw new LoginRejectedException("Role not found");
+        }
+
+        // If simple response
+        if (simple) {
+            if (member.getRoles().contains(role)) {
+                return ud;
+            }
+        } else {
+            // contains supporter and moderator data
+            if (member.getRoles().contains(role) || ud.getSupporter() || ud.getModerator()) {
+                return ud;
+            }
         }
         throw new LoginRejectedException("Required role: " + role.getName());
     }

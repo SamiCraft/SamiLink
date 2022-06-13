@@ -24,8 +24,9 @@ public class DataController {
             @RequestParam(required = false, defaultValue = AppConstants.TARGET_ROLE) Long role,
             @RequestParam(required = false, defaultValue = AppConstants.GUILD_ID) Long guild,
             @RequestParam(required = false, defaultValue = AppConstants.SUPPORTER_CHANNEL_ID) Long supporter,
-            @RequestParam(required = false, defaultValue = AppConstants.STAFF_ROLE_ID) Long staff) {
-        return service.getUserByUUID(uuid, role, guild, supporter, staff);
+            @RequestParam(required = false, defaultValue = AppConstants.STAFF_ROLE_ID) Long staff,
+            @RequestParam(required = false, defaultValue = "false") Boolean simple) {
+        return service.getUserByUUID(uuid, role, guild, supporter, staff, simple);
     }
 
     @GetMapping(path = "/data")

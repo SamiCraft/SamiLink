@@ -26,6 +26,7 @@ public class LookupService {
                 Long.valueOf(AppConstants.TARGET_ROLE),
                 Long.valueOf(AppConstants.GUILD_ID),
                 Long.valueOf(AppConstants.SUPPORTER_CHANNEL_ID),
-                Long.valueOf(AppConstants.STAFF_ROLE_ID));
+                Long.valueOf(AppConstants.STAFF_ROLE_ID),
+                false);
     }
 }
