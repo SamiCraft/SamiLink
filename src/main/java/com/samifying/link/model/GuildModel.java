@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class GuildModel {
     private Long id;
     private String name;
+    private String iconUrl;
     private Integer memberCount;
 }

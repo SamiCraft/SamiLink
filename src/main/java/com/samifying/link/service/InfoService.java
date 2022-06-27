@@ -33,6 +33,7 @@ public class InfoService {
         bot.getJda().getGuilds().forEach(guild -> guilds.add(GuildModel.builder()
                 .id(guild.getIdLong())
                 .name(guild.getName())
+                .iconUrl(guild.getIconUrl())
                 .memberCount(guild.getMemberCount())
                 .build()
         ));

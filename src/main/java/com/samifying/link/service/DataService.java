@@ -1,5 +1,6 @@
 package com.samifying.link.service;
 
+import com.samifying.link.AppConstants;
 import com.samifying.link.AppUtils;
 import com.samifying.link.discord.DiscordBot;
 import com.samifying.link.entity.Data;
@@ -67,7 +68,18 @@ public class DataService {
         }
 
         // Check if player has required role or a supporter or staff
-        Role role = guild.getRoleById(roleId);
+        Long defaultGuildId = Long.valueOf(AppConstants.GUILD_ID);
+        Long defaultRoleId = Long.valueOf(AppConstants.TARGET_ROLE);
+
+        // Check if the guild passed is the default guild
+        // If it's not default use public role
+        Role role;
+        if (!guildId.equals(defaultGuildId) && roleId.equals(defaultRoleId)) {
+            role = guild.getPublicRole();
+        } else {
+            role = guild.getRoleById(roleId);
+        }
+
         if (role == null) {
             throw new LoginRejectedException("Role not found");
         }
