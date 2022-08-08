@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
@@ -47,5 +49,10 @@ public class DataController {
     @GetMapping(path = "/data/uuid/{uuid}")
     public ResponseEntity<Data> getByUUID(@PathVariable String uuid) {
         return ResponseEntity.of(service.getDataByUUID(uuid));
+    }
+
+    @GetMapping(path = "/data/all")
+    public List<Data> getAll() {
+        return service.getAllData();
     }
 }
